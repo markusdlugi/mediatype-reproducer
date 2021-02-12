@@ -1,2 +1,2 @@
-# undertow-https-example
-Small project to demonstrate bug in quarkus-undertow
+# multiple-mediatype-reproducer
+Small project to demonstrate bug in quarkus-resteasy-reactive
