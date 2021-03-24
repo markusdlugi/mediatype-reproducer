@@ -1,4 +1,4 @@
-package com.example.haljson.failing;
+package com.example.haljson.api;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -7,24 +7,22 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 import javax.inject.Inject;
-import javax.ws.rs.ConstrainedTo;
-import javax.ws.rs.Produces;
-import javax.ws.rs.RuntimeType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
-import javax.ws.rs.ext.Provider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Provider
-@Produces({ "application/hal+json" })
-@ConstrainedTo(RuntimeType.SERVER)
-public class SecureJacksonHalProvider implements MessageBodyWriter<Object> {
-    private static final String PREFIX = ")]}',\n";
+public class AbstractHalJsonProvider implements MessageBodyWriter<Object> {
+
+    private final String message;
 
     @Inject
     ObjectMapper mapper;
+
+    public AbstractHalJsonProvider() {
+        message = this.getClass().getSimpleName() + " called!\n";
+    }
 
     @Override
     public boolean isWriteable(final Class type, final Type genericType, final Annotation[] annotations,
@@ -36,7 +34,7 @@ public class SecureJacksonHalProvider implements MessageBodyWriter<Object> {
     public void writeTo(final Object o, final Class type, final Type genericType, final Annotation[] annotations,
             final MediaType mediaType, final MultivaluedMap httpHeaders, final OutputStream entityStream)
             throws IOException {
-        entityStream.write(PREFIX.getBytes(StandardCharsets.UTF_8));
+        entityStream.write(message.getBytes(StandardCharsets.UTF_8));
         entityStream.write(mapper.writeValueAsBytes(o));
         entityStream.close();
     }

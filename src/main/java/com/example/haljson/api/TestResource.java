@@ -1,15 +1,16 @@
-package com.example.haljson.failing;
+package com.example.haljson.api;
+
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import com.example.haljson.model.Entity;
 
-@Path("/failing")
-@Produces({MediaType.APPLICATION_JSON, "application/hal+json"})
-public class SomeResource {
+@Path("/")
+@Produces({APPLICATION_JSON, "application/hal", "application/hal+json"})
+public class TestResource {
 
     @GET
     @Path("/")
